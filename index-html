@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Polity Fold — Publication & Legal Education</title>
+  
+  <!-- Fonts: Newsreader (Serif), Cinzel (Display), Plus Jakarta Sans (UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#0B1325',
+              paper: '#101B33',
+              border: '#1E2C4A'
+            },
+            cream: {
+              DEFAULT: '#FBF9F5',
+              soft: '#F3EFEA',
+              dark: '#EAE2D5',
+              border: '#DDD5C7'
+            },
+            amber: {
+              gold: '#C29B38',
+              highlight: 'rgba(234, 179, 8, 0.35)'
+            }
+          },
+          fontFamily: {
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            display: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FBF9F5;
+      color: #0B1325;
+      font-feature-settings: "kern", "liga", "clig", "calt";
+    }
+
+    ::selection {
+      background-color: rgba(234, 179, 8, 0.35);
+      color: #0B1325;
+    }
+
+    .dropcap::first-letter {
+      font-family: 'Cinzel', serif;
+      float: left;
+      font-size: 3.5rem;
+      line-height: 0.8;
+      padding-top: 4px;
+      padding-right: 8px;
+      color: #0B1325;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body class="bg-cream text-navy font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200">
+
+  <!-- TOP MASTHEAD & NAVIGATION -->
+  <header class="border-b-2 border-navy bg-cream sticky top-0 z-40">
+    
+    <!-- Top Utility Ribbon -->
+    <div class="border-b border-navy/15 py-1.5 px-4 text-xs font-sans tracking-wide text-navy/70">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span id="masthead-date">October 2026</span>
+          <span>•</span>
+          <span class="italic font-serif">Journal of Law, Foreign Policy & Political Thought</span>
+        </div>
+        <div class="flex items-center gap-4" id="header-user-slot">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Title Masthead -->
+    <div class="max-w-7xl mx-auto px-4 py-5 text-center">
+      <a href="#" onclick="navigate('home')" class="inline-block group">
+        <div class="flex items-center justify-center gap-3 mb-1">
+          <!-- Pigeon Vector Logo with Bowler Hat -->
+          <svg class="w-9 h-9 text-navy fill-current transition transform group-hover:scale-105" viewBox="0 0 100 100">
+            <!-- Bowler Hat -->
+            <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+            <ellipse cx="50" cy="24" rx="17" ry="3" />
+            <!-- Pigeon Body & Head -->
+            <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+            <!-- Beak -->
+            <path d="M 34 38 L 26 40 L 33 44 Z" />
+            <!-- Eye -->
+            <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+            <!-- Feet -->
+            <path d="M 42 79 L 40 86 M 45 79 L 45 87 M 52 79 L 55 86" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+
+          <span class="font-display font-extrabold tracking-widest text-3xl sm:text-4xl text-navy">THE POLITY FOLD</span>
+        </div>
+        <p class="font-serif italic text-xs sm:text-sm text-navy/70 tracking-wide">Law School for Students & Legal Commentary</p>
+      </a>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="max-w-7xl mx-auto px-4 flex items-center justify-between text-xs font-semibold tracking-wider uppercase py-2 border-t border-navy/15 overflow-x-auto">
+      <div class="flex items-center space-x-6">
+        <button onclick="navigate('home')" class="hover:text-amber-800 transition py-1">Front Page</button>
+        <button onclick="navigate('op-eds')" class="hover:text-amber-800 transition py-1">Op-Eds & Analysis</button>
+        <button onclick="navigate('law-made-easy')" class="hover:text-amber-800 transition py-1 flex items-center gap-1.5">
+          <span>Law Made Easy</span>
+          <span class="bg-navy text-cream text-[9px] px-1.5 py-0.2 rounded font-sans uppercase tracking-normal">Courses</span>
+        </button>
+        <button onclick="navigate('contributors')" class="hover:text-amber-800 transition py-1">Contributors</button>
+        <button onclick="navigate('pigeon')" class="text-amber-800 hover:underline py-1">Polity Pigeons</button>
+      </div>
+
+      <div class="flex items-center space-x-3 pl-4" id="nav-right-slot">
+        <!-- Rendered via JS -->
+      </div>
+    </nav>
+  </header>
+
+  <!-- COUNSELOR PIGEON FLOATING ASSISTANT -->
+  <div id="counselor-widget" class="fixed bottom-6 right-6 z-40 hidden sm:block">
+    <button onclick="toggleCounselorModal()" class="bg-navy text-cream p-3 rounded-full shadow-2xl border-2 border-amber-gold hover:scale-105 transition flex items-center gap-2 group">
+      <svg class="w-6 h-6 text-cream fill-current" viewBox="0 0 100 100">
+        <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+        <ellipse cx="50" cy="24" rx="17" ry="3" />
+        <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+        <path d="M 34 38 L 26 40 L 33 44 Z" />
+        <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+      </svg>
+      <span class="text-xs font-bold uppercase tracking-wider pr-1 font-sans">Counselor Pigeon</span>
+    </button>
+  </div>
+
+  <!-- MAIN DYNAMIC CONTENT AREA -->
+  <main id="app" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Pages rendered via JS -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-navy text-cream mt-20 border-t-4 border-amber-gold">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-6 h-6 text-amber-gold fill-current" viewBox="0 0 100 100">
+              <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+              <ellipse cx="50" cy="24" rx="17" ry="3" />
+              <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+              <path d="M 34 38 L 26 40 L 33 44 Z" />
+              <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+            </svg>
+            <h2 class="font-display font-bold text-xl tracking-wider">THE POLITY FOLD</h2>
+          </div>
+          <p class="font-serif italic text-xs text-cream/70 mb-4 max-w-md leading-relaxed">
+            An independent publication and educational platform dedicated to constitutional jurisprudence, international policy analysis, and introductory legal studies for students.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-sans text-xs uppercase tracking-widest font-bold text-amber-gold mb-3">Sections</h3>
+          <ul class="space-y-2 text-xs font-sans text-cream/80">
+            <li><a href="#" onclick="navigate('op-eds')" class="hover:text-cream">Op-Eds & Commentary</a></li>
+            <li><a href="#" onclick="navigate('law-made-easy')" class="hover:text-cream">Law Made Easy Courses</a></li>
+            <li><a href="#" onclick="navigate('contributors')" class="hover:text-cream">Contributors</a></li>
+            <li><a href="#" onclick="navigate('pigeon')" class="hover:text-cream">Become a Polity Pigeon</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-sans text-xs uppercase tracking-widest font-bold text-amber-gold mb-3">Account Desk</h3>
+          <ul class="space-y-2 text-xs font-sans text-cream/80">
+            <li><a href="#" onclick="navigate('dashboard')" class="hover:text-cream">My Annotations Notebook</a></li>
+            <li><a href="#" onclick="showSignInModal()" class="hover:text-cream">Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-cream/10 pt-6 text-center text-xs text-cream/40 font-sans">
+        © 2026 The Polity Fold. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- UNIFIED SIGN IN MODAL -->
+  <div id="signin-modal" class="hidden fixed inset-0 z-50 bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-cream border-2 border-navy max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+      <button onclick="closeSignInModal()" class="absolute top-4 right-4 text-navy/60 hover:text-navy text-xl font-bold">&times;</button>
+      
+      <div class="text-center mb-6">
+        <svg class="w-10 h-10 text-navy fill-current mx-auto mb-2" viewBox="0 0 100 100">
+          <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+          <ellipse cx="50" cy="24" rx="17" ry="3" />
+          <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+          <path d="M 34 38 L 26 40 L 33 44 Z" />
+          <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+        </svg>
+        <h2 class="font-display font-bold text-2xl text-navy">SIGN IN TO THE POLITY FOLD</h2>
+        <p class="font-serif italic text-xs text-navy/70 mt-1">Access private study notebooks and publishing tools</p>
+      </div>
+
+      <form onsubmit="handleSignInSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1">Your Name</label>
+          <input type="text" id="signin-name" placeholder="Full Name" required class="w-full bg-white border border-navy/30 p-2.5 text-sm focus:outline-none focus:border-navy" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1">Email Address</label>
+          <input type="email" id="signin-email" placeholder="email@example.com" required class="w-full bg-white border border-navy/30 p-2.5 text-sm focus:outline-none focus:border-navy" />
+        </div>
+        <button type="submit" class="w-full bg-navy text-cream font-bold py-3 text-xs uppercase tracking-widest hover:bg-navy-paper transition">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- COUNSELOR PIGEON ASSISTANT MODAL -->
+  <div id="counselor-modal" class="hidden fixed inset-0 z-50 bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-cream border-2 border-navy max-w-lg w-full p-6 sm:p-8 shadow-2xl relative flex flex-col max-h-[85vh]">
+      <button onclick="toggleCounselorModal()" class="absolute top-4 right-4 text-navy/60 hover:text-navy text-xl font-bold">&times;</button>
+      
+      <div class="flex items-center gap-3 border-b border-navy/15 pb-4 mb-4">
+        <div class="bg-navy p-2 rounded-full border border-amber-gold">
+          <svg class="w-8 h-8 text-cream fill-current" viewBox="0 0 100 100">
+            <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+            <ellipse cx="50" cy="24" rx="17" ry="3" />
+            <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+            <path d="M 34 38 L 26 40 L 33 44 Z" />
+            <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg text-navy">Counselor Pigeon</h3>
+          <p class="font-serif italic text-xs text-navy/70">Legal Reasoning Helper & IRAC Tutor</p>
+        </div>
+      </div>
+
+      <div id="counselor-messages" class="flex-grow overflow-y-auto space-y-3 p-2 bg-white border border-navy/15 mb-4 text-xs font-serif leading-relaxed">
+        <div class="bg-cream-soft p-3 border-l-2 border-navy">
+          <strong>Counselor Pigeon:</strong> "Greetings, scholar! Ask me how to structure a legal argument using IRAC (Issue, Rule, Application, Conclusion) or clarify dense legal terms!"
+        </div>
+      </div>
+
+      <form onsubmit="handleCounselorQuery(event)" class="flex gap-2">
+        <input type="text" id="counselor-input" placeholder="Ask about IRAC method or legal concepts..." class="flex-grow bg-white border border-navy/30 p-2 text-xs font-sans focus:outline-none focus:border-navy" />
+        <button type="submit" class="bg-navy text-cream font-bold px-4 py-2 text-xs uppercase tracking-wider font-sans">Ask</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE = {
+      ARTICLES: 'pf_articles_data',
+      LESSONS: 'pf_lessons_data',
+      ANNOTATIONS: 'pf_annotations_data',
+      SUBSCRIBERS: 'pf_subscribers_data',
+      USER: 'pf_user_session'
+    };
+
+    const ADMIN_EMAIL = 'iligai3007@gmail.com';
+
+    const seedArticles = [
+      {
+        id: 'art-101',
+        title: 'The Re-Emergence of Stare Decisis in Constitutional Interpretation',
+        subtitle: 'Why judicial deference to precedent remains the structural bedrock of constitutional governance.',
+        category: 'Law',
+        author: 'Iligai Taurbek',
+        date: 'Oct 1, 2026',
+        readTime: '6 min read',
+        featured: true,
+        content: `The doctrine of stare decisis—derived from the Latin principle "to stand by things decided"—is far more than a conservative judicial convention. It serves as the primary structural anchor of predictable constitutional governance. When courts observe established precedent, they ensure that law develops through continuity rather than shifting with judicial appointments.
+
+In evaluating modern legal controversies, student legal scholars must examine how constitutional jurisprudence balances precedent with corrective justice. Lower courts remain strictly bound by established precedent, preserving constitutional order across state and federal jurisdictions.`
+      },
+      {
+        id: 'art-102',
+        title: 'Digital Sovereignty: How Cloud Infrastructure Redefines Foreign Policy',
+        subtitle: 'Territorial borders are extending into cloud servers and national data jurisdiction.',
+        category: 'International Affairs',
+        author: 'Iligai Taurbek',
+        date: 'Sep 26, 2026',
+        readTime: '5 min read',
+        featured: false,
+        content: `Across modern diplomatic summits, state jurisdiction over digital infrastructure has emerged as a crucial issue in international relations. As sovereign nations enact local data residency laws, traditional frameworks of public international law face unprecedented stress.
+
+Students analyzing modern foreign affairs must evaluate how electronic data ownership intersects with national security statutes and international trade treaties.`
+      }
+    ];
+
+    const seedLessons = [
+      {
+        id: 'les-101',
+        course: 'Constitutional Law',
+        title: 'Judicial Review & Marbury v. Madison',
+        number: 101,
+        difficulty: 'Introductory',
+        description: 'Learn how courts evaluate whether legislative statutes or executive actions comply with the supreme law of the land.',
+        content: `Judicial review is the authority of courts to inspect legislative statutes and executive actions, nullifying those that conflict with constitutional principles. Established in Marbury v. Madison (1803), Chief Justice John Marshall famously asserted that "it is emphatically the province and duty of the judicial department to say what the law is."
+
+To reason like a legal scholar using the IRAC method:
+1. ISSUE: Does the legislative statute conflict with Constitutional Article VI?
+2. RULE: The Constitution is the supreme law of the land.
+3. APPLICATION: When an act of legislature conflicts with the Constitution, the court must enforce the supreme law.
+4. CONCLUSION: The unconstitutional statute is void.`
+      }
+    ];
+
+    const state = {
+      currentUser: JSON.parse(localStorage.getItem(STORAGE.USER)) || null,
+      articles: JSON.parse(localStorage.getItem(STORAGE.ARTICLES)) || seedArticles,
+      lessons: JSON.parse(localStorage.getItem(STORAGE.LESSONS)) || seedLessons,
+      annotations: JSON.parse(localStorage.getItem(STORAGE.ANNOTATIONS)) || [],
+      subscribers: JSON.parse(localStorage.getItem(STORAGE.SUBSCRIBERS)) || ['iligai3007@gmail.com'],
+      currentView: 'home',
+      currentArticleId: null,
+      currentLessonId: null
+    };
+
+    function persistState() {
+      localStorage.setItem(STORAGE.ARTICLES, JSON.stringify(state.articles));
+      localStorage.setItem(STORAGE.LESSONS, JSON.stringify(state.lessons));
+      localStorage.setItem(STORAGE.ANNOTATIONS, JSON.stringify(state.annotations));
+      localStorage.setItem(STORAGE.SUBSCRIBERS, JSON.stringify(state.subscribers));
+      if (state.currentUser) {
+        localStorage.setItem(STORAGE.USER, JSON.stringify(state.currentUser));
+      } else {
+        localStorage.removeItem(STORAGE.USER);
+      }
+    }
+
+    function navigate(view, params = {}) {
+      state.currentView = view;
+      if (params.articleId) state.currentArticleId = params.articleId;
+      if (params.lessonId) state.currentLessonId = params.lessonId;
+      render();
+      window.scrollTo(0, 0);
+    }
+
+    function showSignInModal() {
+      document.getElementById('signin-modal').classList.remove('hidden');
+    }
+
+    function closeSignInModal() {
+      document.getElementById('signin-modal').classList.add('hidden');
+    }
+
+    function handleSignInSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('signin-name').value.trim();
+      const email = document.getElementById('signin-email').value.trim().toLowerCase();
+
+      const isAdmin = (email === ADMIN_EMAIL.toLowerCase());
+
+      state.currentUser = {
+        name: name,
+        email: email,
+        isAdmin: isAdmin
+      };
+
+      persistState();
+      closeSignInModal();
+      render();
+
+      if (isAdmin) {
+        alert('Editor access unlocked.');
+      }
+    }
+
+    function signOut() {
+      state.currentUser = null;
+      persistState();
+      navigate('home');
+    }
+
+    function toggleCounselorModal() {
+      document.getElementById('counselor-modal').classList.toggle('hidden');
+    }
+
+    function handleCounselorQuery(e) {
+      e.preventDefault();
+      const input = document.getElementById('counselor-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      const messages = document.getElementById('counselor-messages');
+      messages.innerHTML += `<div class="text-right"><span class="bg-navy text-cream px-3 py-1.5 rounded inline-block font-sans text-xs">${query}</span></div>`;
+
+      let response = "I recommend using the **IRAC method**: State the **Issue**, cite the governing **Rule**, apply the facts (**Application**), and summarize your legal **Conclusion**.";
+      
+      const qLower = query.toLowerCase();
+      if (qLower.includes('irac')) {
+        response = "IRAC stands for **Issue** (What is the legal dispute?), **Rule** (Which law or precedent governs?), **Application** (How do facts fit the rule?), and **Conclusion** (What is the legal decision?).";
+      } else if (qLower.includes('stare decisis') || qLower.includes('precedent')) {
+        response = "**Stare Decisis** means lower courts must follow prior constitutional rulings of higher courts to maintain stability and predictability in law.";
+      }
+
+      setTimeout(() => {
+        messages.innerHTML += `
+          <div class="bg-cream-soft p-3 border-l-2 border-navy text-xs">
+            <strong>Counselor Pigeon:</strong> ${response}
+          </div>
+        `;
+        messages.scrollTop = messages.scrollHeight;
+      }, 300);
+
+      input.value = '';
+    }
+
+    async function handleNewsletterSubscribe(e) {
+      e.preventDefault();
+      const email = document.getElementById('pigeon-email-input').value.trim();
+      if (!email) return;
+
+      if (!state.subscribers.includes(email)) {
+        state.subscribers.push(email);
+        persistState();
+      }
+
+      alert(`Thank you for subscribing! Direct dispatches will be sent to ${email}.`);
+      document.getElementById('pigeon-email-input').value = '';
+    }
+
+    function renderHeaderUser() {
+      const userSlot = document.getElementById('header-user-slot');
+      const rightSlot = document.getElementById('nav-right-slot');
+
+      if (state.currentUser) {
+        userSlot.innerHTML = `
+          <button onclick="navigate('dashboard')" class="hover:text-amber-800 font-medium">Notebook (${state.currentUser.name.split(' ')[0]})</button>
+          <span>•</span>
+          <button onclick="signOut()" class="text-navy/50 hover:text-navy">Sign Out</button>
+        `;
+
+        if (state.currentUser.isAdmin) {
+          rightSlot.innerHTML = `
+            <button onclick="navigate('admin-dashboard')" class="bg-navy text-cream px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider hover:bg-navy-paper transition">
+              Editor Desk
+            </button>
+          `;
+        } else {
+          rightSlot.innerHTML = '';
+        }
+      } else {
+        userSlot.innerHTML = `
+          <button onclick="showSignInModal()" class="hover:text-amber-800 font-medium">Sign In</button>
+        `;
+        rightSlot.innerHTML = '';
+      }
+    }
+
+    function render() {
+      renderHeaderUser();
+      const app = document.getElementById('app');
+
+      switch (state.currentView) {
+        case 'home':
+          app.innerHTML = renderHome();
+          break;
+        case 'op-eds':
+          app.innerHTML = renderOpEds();
+          break;
+        case 'article':
+          app.innerHTML = renderArticle();
+          break;
+        case 'law-made-easy':
+          app.innerHTML = renderLawMadeEasy();
+          break;
+        case 'lesson':
+          app.innerHTML = renderLesson();
+          break;
+        case 'contributors':
+          app.innerHTML = renderContributors();
+          break;
+        case 'dashboard':
+          app.innerHTML = renderDashboard();
+          break;
+        case 'admin-dashboard':
+          app.innerHTML = renderAdminDashboard();
+          break;
+        case 'pigeon':
+          app.innerHTML = renderPigeon();
+          break;
+        default:
+          app.innerHTML = renderHome();
+      }
+    }
+
+    function renderHome() {
+      const feat = state.articles.find(a => a.featured) || state.articles[0];
+      const recents = state.articles.filter(a => a.id !== feat.id);
+
+      return `
+        <div class="border-b-2 border-navy pb-8 mb-10 text-center">
+          <p class="font-display text-xs tracking-widest uppercase text-navy/60 mb-2">Student Journal of Law & Policy</p>
+          <h1 class="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-navy leading-tight mb-3">
+            VERITAS ET IUSTITIA
+          </h1>
+          <p class="font-serif italic text-base text-navy/80 max-w-2xl mx-auto">
+            Fostering legal reasoning, constitutional analysis, and foreign policy research for young scholars.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div class="lg:col-span-8 border-b lg:border-b-0 lg:border-r border-navy/20 pb-8 lg:pb-0 lg:pr-10">
+            <span class="font-sans text-[11px] font-bold uppercase tracking-widest text-amber-800 bg-amber-100/60 px-2 py-0.5 border border-amber-800/20">${feat.category}</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-3 mb-3 cursor-pointer hover:text-amber-900 leading-snug" onclick="navigate('article', {articleId: '${feat.id}'})">
+              ${feat.title}
+            </h2>
+            <p class="font-serif text-lg text-navy/80 leading-relaxed mb-4">${feat.subtitle}</p>
+            <div class="text-xs font-sans text-navy/60 flex items-center gap-3 border-t border-b border-navy/10 py-2 my-4">
+              <span>By <strong>${feat.author}</strong></span>
+              <span>•</span>
+              <span>${feat.date}</span>
+              <span>•</span>
+              <span>${feat.readTime}</span>
+            </div>
+            <p class="font-serif text-base leading-relaxed text-navy/90 dropcap line-clamp-4">
+              ${feat.content}
+            </p>
+            <button onclick="navigate('article', {articleId: '${feat.id}'})" class="mt-4 font-sans text-xs font-bold uppercase tracking-wider text-navy hover:text-amber-800 underline">
+              Read Full Commentary →
+            </button>
+          </div>
+
+          <div class="lg:col-span-4 space-y-8">
+            <div class="bg-navy text-cream p-6 border-2 border-navy">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-6 h-6 text-amber-gold fill-current" viewBox="0 0 100 100">
+                  <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+                  <ellipse cx="50" cy="24" rx="17" ry="3" />
+                  <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+                  <path d="M 34 38 L 26 40 L 33 44 Z" />
+                  <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+                </svg>
+                <span class="font-display text-xs text-amber-gold uppercase tracking-widest font-bold">Law School for Students</span>
+              </div>
+              <h3 class="font-display font-bold text-xl text-cream mb-2">LAW MADE EASY</h3>
+              <p class="font-serif text-xs text-cream/80 italic mb-4 leading-relaxed">
+                Free introductory legal education teaching students how judges, attorneys, and scholars analyze cases.
+              </p>
+              <div class="border-t border-cream/20 pt-3 mb-4 space-y-2">
+                ${state.lessons.slice(0,2).map(l => `
+                  <div class="cursor-pointer hover:text-amber-gold" onclick="navigate('lesson', {lessonId: '${l.id}'})">
+                    <p class="font-sans text-xs font-bold text-cream">${l.title}</p>
+                    <p class="font-serif text-[11px] text-cream/60">${l.course}</p>
+                  </div>
+                `).join('')}
+              </div>
+              <button onclick="navigate('law-made-easy')" class="w-full bg-amber-gold text-navy font-bold py-2 text-xs uppercase tracking-widest hover:bg-amber-300 transition font-sans">
+                Explore Courses
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16 pt-8 border-t-2 border-navy">
+          <h3 class="font-display font-bold text-lg text-navy mb-6 uppercase tracking-wider">Recent Commentary</h3>
+          <div class="grid md:grid-cols-3 gap-8">
+            ${recents.map(a => `
+              <div class="border-b md:border-b-0 md:border-r border-navy/10 pb-6 md:pb-0 md:pr-6">
+                <span class="font-sans text-[10px] font-bold uppercase tracking-widest text-amber-800">${a.category}</span>
+                <h4 class="font-serif text-xl font-bold mt-1 mb-2 cursor-pointer hover:text-amber-800" onclick="navigate('article', {articleId: '${a.id}'})">${a.title}</h4>
+                <p class="font-serif text-xs text-navy/70 line-clamp-2 mb-3">${a.subtitle}</p>
+                <span class="text-[11px] font-sans text-navy/50">${a.author} •${a.date}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderOpEds() {
+      return `
+        <div class="border-b-2 border-navy pb-4 mb-8">
+          <h1 class="font-serif text-4xl font-bold">Op-Eds & Analysis</h1>
+          <p class="font-serif italic text-sm text-navy/70 mt-1">Student legal commentary, foreign policy research, and political analysis.</p>
+        </div>
+        <div class="space-y-8 max-w-4xl">
+          ${state.articles.map(a => `
+            <div class="border-b border-navy/20 pb-8">
+              <div class="flex items-center gap-3 text-xs font-sans mb-1">
+                <span class="font-bold text-amber-800 uppercase tracking-widest">${a.category}</span>
+                <span>•</span>
+                <span class="text-navy/50">${a.date}</span>
+              </div>
+              <h2 class="font-serif text-2xl font-bold cursor-pointer hover:text-amber-800 mb-2" onclick="navigate('article', {articleId: '${a.id}'})">${a.title}</h2>
+              <p class="font-serif text-base text-navy/80 mb-3">${a.subtitle}</p>
+              <div class="text-xs font-sans text-navy/60">By <strong>${a.author}</strong> \vert{}${a.readTime}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderArticle() {
+      const art = state.articles.find(a => a.id === state.currentArticleId) || state.articles[0];
+
+      return `
+        <article class="max-w-3xl mx-auto">
+          <div class="border-b border-navy/20 pb-6 mb-8">
+            <span class="font-sans text-xs font-bold uppercase tracking-widest text-amber-800">${art.category}</span>
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold mt-2 mb-3 text-navy leading-tight">${art.title}</h1>
+            <p class="font-serif italic text-lg text-navy/70 mb-4">${art.subtitle}</p>
+            <div class="flex items-center justify-between text-xs font-sans text-navy/60 border-t border-b border-navy/10 py-2">
+              <span>By <strong>${art.author}</strong></span>
+              <span>${art.date} • ${art.readTime}</span>
+            </div>
+          </div>
+
+          <div id="selectable-body" class="font-serif text-lg leading-relaxed text-navy space-y-6">
+            ${art.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+          </div>
+        </article>
+      `;
+    }
+
+    function renderLawMadeEasy() {
+      return `
+        <div class="border-b-2 border-navy pb-4 mb-8">
+          <span class="font-display text-xs font-bold text-amber-gold uppercase tracking-widest">Law School for Students</span>
+          <h1 class="font-serif text-4xl font-bold">LAW MADE EASY</h1>
+          <p class="font-serif italic text-sm text-navy/70 mt-1">Introductory legal education teaching students how judges, lawyers, and scholars reason.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          ${state.lessons.map(les => `
+            <div class="bg-white p-6 border-2 border-navy flex flex-col justify-between">
+              <div>
+                <span class="font-sans text-[10px] font-bold uppercase tracking-wider bg-navy text-cream px-2 py-0.5">${les.course}</span>
+                <h2 class="font-serif text-xl font-bold mt-3 mb-2">${les.title}</h2>
+                <p class="font-serif text-xs text-navy/70 leading-relaxed mb-4">${les.description}</p>
+              </div>
+              <button onclick="navigate('lesson', {lessonId: '${les.id}'})" class="w-full bg-navy text-cream py-2 text-xs font-bold uppercase tracking-widest hover:bg-navy-paper transition font-sans">
+                Start Lesson & IRAC Analysis →
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderLesson() {
+      const les = state.lessons.find(l => l.id === state.currentLessonId) || state.lessons[0];
+      return `
+        <div class="max-w-3xl mx-auto">
+          <div class="border-b border-navy/20 pb-4 mb-6">
+            <span class="font-sans text-xs font-bold text-amber-800 uppercase tracking-widest">${les.course} • Module ${les.number}</span>
+            <h1 class="font-serif text-3xl font-bold mt-1 mb-2">${les.title}</h1>
+            <p class="font-serif italic text-sm text-navy/70">${les.description}</p>
+          </div>
+
+          <div id="selectable-body" class="bg-white p-8 border border-navy/20 font-serif text-base leading-relaxed text-navy space-y-4 mb-8">
+            ${les.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+          </div>
+
+          <div class="bg-cream-soft p-6 border-2 border-navy">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-display font-bold text-xs uppercase tracking-wider text-navy">IRAC Legal Exercise</h3>
+              <button onclick="toggleCounselorModal()" class="text-xs font-sans text-amber-800 font-bold underline">Need help from Counselor Pigeon?</button>
+            </div>
+            <p class="font-serif text-xs text-navy/80 mb-4">How would you apply the constitutional rule established in this lesson to a newly enacted statute?</p>
+            <textarea placeholder="Write your legal rationale using IRAC (Issue, Rule, Application, Conclusion)..." class="w-full bg-white border border-navy/30 p-3 text-xs font-sans focus:outline-none focus:border-navy"></textarea>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderContributors() {
+      return `
+        <div class="border-b-2 border-navy pb-4 mb-8">
+          <h1 class="font-serif text-3xl font-bold">Contributors & Editorial Desk</h1>
+        </div>
+        <div class="max-w-xl bg-white p-6 border-2 border-navy">
+          <h2 class="font-display font-bold text-lg text-navy">Editorial Staff</h2>
+          <p class="font-serif text-sm text-navy/80 leading-relaxed mt-2">
+            The Polity Fold is edited and authored by student scholars focused on constitutional law, international diplomacy, and public policy.
+          </p>
+        </div>
+      `;
+    }
+
+    function renderDashboard() {
+      if (!state.currentUser) {
+        return `
+          <div class="text-center py-16">
+            <h2 class="font-serif text-2xl font-bold mb-2">Sign In Required</h2>
+            <p class="font-serif italic text-sm text-navy/70 mb-4">Please sign in to access your study notebook.</p>
+            <button onclick="showSignInModal()" class="bg-navy text-cream px-6 py-2 text-xs font-bold uppercase tracking-widest font-sans">Sign In</button>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="max-w-4xl mx-auto">
+          <div class="border-b-2 border-navy pb-4 mb-8">
+            <h1 class="font-serif text-3xl font-bold">My Personal Study Notebook</h1>
+            <p class="font-serif italic text-sm text-navy/70 mt-1">Saved study notes for <strong>${state.currentUser.name}</strong> (${state.currentUser.email})</p>
+          </div>
+          <div class="bg-white p-8 border border-navy/20 text-center">
+            <p class="font-serif italic text-sm text-navy/60">Your study notes and lesson exercises will be saved here.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAdminDashboard() {
+      if (!state.currentUser || !state.currentUser.isAdmin) {
+        return `
+          <div class="text-center py-12">
+            <p class="font-serif text-lg text-navy">Access Restricted.</p>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="max-w-4xl mx-auto">
+          <div class="border-b-2 border-navy pb-4 mb-8 flex justify-between items-end">
+            <div>
+              <span class="font-display text-xs text-amber-800 uppercase tracking-widest font-bold">Authorized Editor Workspace</span>
+              <h1 class="font-serif text-3xl font-bold">Editor Desk</h1>
+            </div>
+            <button onclick="signOut()" class="text-xs font-sans text-navy/60 hover:text-navy underline">Sign Out</button>
+          </div>
+
+          <div class="bg-white p-6 border-2 border-navy mb-10">
+            <h2 class="font-display font-bold text-lg text-navy mb-4 border-b border-navy/10 pb-2">Publish New Article / Commentary</h2>
+            
+            <form onsubmit="handlePublishArticle(event)" class="space-y-4">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider mb-1">Headline</label>
+                  <input type="text" id="pub-title" required class="w-full border border-navy/30 p-2 text-xs" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider mb-1">Category</label>
+                  <select id="pub-cat" class="w-full border border-navy/30 p-2 text-xs">
+                    <option>Law</option>
+                    <option>Politics</option>
+                    <option>International Affairs</option>
+                    <option>Public Policy</option>
+                    <option>Society</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-1">Subtitle / Abstract</label>
+                <input type="text" id="pub-sub" required class="w-full border border-navy/30 p-2 text-xs" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-1">Article Body Content</label>
+                <textarea id="pub-body" rows="6" required class="w-full border border-navy/30 p-2 text-xs font-serif"></textarea>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="pub-featured" class="border-navy" />
+                <label for="pub-featured" class="text-xs font-sans">Set as Featured Story on Front Page</label>
+              </div>
+
+              <div class="pt-2 flex justify-between items-center">
+                <button type="submit" class="bg-navy text-cream font-bold px-6 py-2.5 text-xs uppercase tracking-widest hover:bg-navy-paper transition font-sans">
+                  Publish Article Live
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <h3 class="font-display font-bold text-md text-navy mb-3">Published Articles (${state.articles.length})</h3>
+            <div class="space-y-2">
+              ${state.articles.map(art => `
+                <div class="bg-cream-soft p-3 border border-navy/20 flex justify-between items-center text-xs">
+                  <div>
+                    <span class="font-bold text-navy">${art.title}</span>
+                    <span class="text-navy/50 font-sans"> (${art.category})</span>
+                  </div>
+                  <button onclick="deleteArticle('${art.id}')" class="text-red-700 font-sans font-bold hover:underline">Delete</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPigeon() {
+      return `
+        <div class="max-w-md mx-auto text-center py-12">
+          <svg class="w-16 h-16 text-navy fill-current mx-auto mb-3" viewBox="0 0 100 100">
+            <path d="M 38 18 Q 50 10 62 18 L 65 24 Q 50 22 35 24 Z" />
+            <ellipse cx="50" cy="24" rx="17" ry="3" />
+            <path d="M 43 24 C 40 28, 36 34, 33 42 C 30 52, 28 64, 25 76 C 30 78, 38 80, 48 80 C 60 80, 72 75, 82 62 C 75 52, 65 42, 58 35 C 54 31, 50 26, 43 24 Z" />
+            <path d="M 34 38 L 26 40 L 33 44 Z" />
+            <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
+          </svg>
+          <h1 class="font-display text-3xl font-bold mb-2">BECOME A POLITY PIGEON</h1>
+          <p class="font-serif text-sm text-navy/70 mb-6 leading-relaxed">Receive legal analysis and lesson dispatches directly in your inbox.</p>
+          
+          <form onsubmit="handleNewsletterSubscribe(event)" class="space-y-3">
+            <input type="email" id="pigeon-email-input" placeholder="Enter your email address" required class="w-full border border-navy/30 p-3 text-xs font-sans text-center focus:outline-none focus:border-navy" />
+            <button type="submit" class="w-full bg-navy text-cream font-bold py-3 text-xs uppercase tracking-widest font-sans hover:bg-navy-paper transition">
+              Subscribe to Dispatches
+            </button>
+          </form>
+        </div>
+      `;
+    }
+
+    function handlePublishArticle(e) {
+      e.preventDefault();
+      const title = document.getElementById('pub-title').value.trim();
+      const category = document.getElementById('pub-cat').value;
+      const subtitle = document.getElementById('pub-sub').value.trim();
+      const content = document.getElementById('pub-body').value.trim();
+      const featured = document.getElementById('pub-featured').checked;
+
+      if (featured) {
+        state.articles.forEach(a => a.featured = false);
+      }
+
+      const newArticle = {
+        id: 'art-' + Date.now(),
+        title,
+        subtitle,
+        category,
+        author: state.currentUser.name,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        readTime: '4 min read',
+        featured,
+        content
+      };
+
+      state.articles.unshift(newArticle);
+      persistState();
+      alert('Article published live.');
+      navigate('home');
+    }
+
+    function deleteArticle(id) {
+      if (confirm('Delete this article from publication?')) {
+        state.articles = state.articles.filter(a => a.id !== id);
+        persistState();
+        render();
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
