@@ -204,7 +204,7 @@
           <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
         </svg>
         <h2 class="font-display font-bold text-2xl text-navy">SIGN IN TO THE POLITY FOLD</h2>
-        <p class="font-serif italic text-xs text-navy/70 mt-1">Access private study notebooks and publishing tools</p>
+        <p class="font-serif italic text-xs text-navy/70 mt-1">Access study notebooks or Editor Desk credentials</p>
       </div>
 
       <form onsubmit="handleSignInSubmit(event)" class="space-y-4">
@@ -215,6 +215,10 @@
         <div>
           <label class="block text-xs font-bold uppercase tracking-wider mb-1">Email Address</label>
           <input type="email" id="signin-email" placeholder="email@example.com" required class="w-full bg-white border border-navy/30 p-2.5 text-sm focus:outline-none focus:border-navy" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1">Password</label>
+          <input type="password" id="signin-pass" placeholder="••••••••" required class="w-full bg-white border border-navy/30 p-2.5 text-sm focus:outline-none focus:border-navy" />
         </div>
         <button type="submit" class="w-full bg-navy text-cream font-bold py-3 text-xs uppercase tracking-widest hover:bg-navy-paper transition">
           Sign In
@@ -239,19 +243,19 @@
           </svg>
         </div>
         <div>
-          <h3 class="font-display font-bold text-lg text-navy">Counselor Pigeon</h3>
-          <p class="font-serif italic text-xs text-navy/70">Legal Reasoning Helper & IRAC Tutor</p>
+          <h3 class="font-display font-bold text-lg text-navy">Counselor Pigeon AI</h3>
+          <p class="font-serif italic text-xs text-navy/70">Neutral Legal & Political Science Scholar</p>
         </div>
       </div>
 
       <div id="counselor-messages" class="flex-grow overflow-y-auto space-y-3 p-2 bg-white border border-navy/15 mb-4 text-xs font-serif leading-relaxed">
         <div class="bg-cream-soft p-3 border-l-2 border-navy">
-          <strong>Counselor Pigeon:</strong> "Greetings, scholar! Ask me how to structure a legal argument using IRAC (Issue, Rule, Application, Conclusion) or clarify dense legal terms!"
+          <strong>Counselor Pigeon:</strong> "Greetings! Ask me any question regarding law, global geopolitics, or political science. I provide objective analysis based on multiple perspectives without taking political sides."
         </div>
       </div>
 
       <form onsubmit="handleCounselorQuery(event)" class="flex gap-2">
-        <input type="text" id="counselor-input" placeholder="Ask about IRAC method or legal concepts..." class="flex-grow bg-white border border-navy/30 p-2 text-xs font-sans focus:outline-none focus:border-navy" />
+        <input type="text" id="counselor-input" placeholder="Ask about law, political science, or foreign affairs..." class="flex-grow bg-white border border-navy/30 p-2 text-xs font-sans focus:outline-none focus:border-navy" />
         <button type="submit" class="bg-navy text-cream font-bold px-4 py-2 text-xs uppercase tracking-wider font-sans">Ask</button>
       </form>
     </div>
@@ -267,6 +271,7 @@
     };
 
     const ADMIN_EMAIL = 'iligai3007@gmail.com';
+    const ADMIN_PASS = 'Snowball30!';
 
     const seedArticles = [
       {
@@ -277,6 +282,7 @@
         author: 'Iligai Taurbek',
         date: 'Oct 1, 2026',
         readTime: '6 min read',
+        videoUrl: '',
         featured: true,
         content: `The doctrine of stare decisis—derived from the Latin principle "to stand by things decided"—is far more than a conservative judicial convention. It serves as the primary structural anchor of predictable constitutional governance. When courts observe established precedent, they ensure that law develops through continuity rather than shifting with judicial appointments.
 
@@ -290,6 +296,7 @@ In evaluating modern legal controversies, student legal scholars must examine ho
         author: 'Iligai Taurbek',
         date: 'Sep 26, 2026',
         readTime: '5 min read',
+        videoUrl: '',
         featured: false,
         content: `Across modern diplomatic summits, state jurisdiction over digital infrastructure has emerged as a crucial issue in international relations. As sovereign nations enact local data residency laws, traditional frameworks of public international law face unprecedented stress.
 
@@ -358,8 +365,14 @@ To reason like a legal scholar using the IRAC method:
       e.preventDefault();
       const name = document.getElementById('signin-name').value.trim();
       const email = document.getElementById('signin-email').value.trim().toLowerCase();
+      const pass = document.getElementById('signin-pass').value.trim();
 
-      const isAdmin = (email === ADMIN_EMAIL.toLowerCase());
+      const isAdmin = (email === ADMIN_EMAIL.toLowerCase() && pass === ADMIN_PASS);
+
+      if (email === ADMIN_EMAIL.toLowerCase() && !isAdmin) {
+        alert('Incorrect password for Editor Desk access.');
+        return;
+      }
 
       state.currentUser = {
         name: name,
@@ -372,7 +385,8 @@ To reason like a legal scholar using the IRAC method:
       render();
 
       if (isAdmin) {
-        alert('Editor access unlocked.');
+        alert('Welcome back, Editor! Editor Desk unlocked.');
+        navigate('admin-dashboard');
       }
     }
 
@@ -386,7 +400,34 @@ To reason like a legal scholar using the IRAC method:
       document.getElementById('counselor-modal').classList.toggle('hidden');
     }
 
-    function handleCounselorQuery(e) {
+    function formatDriveOrVideoEmbed(url) {
+      if (!url) return '';
+      let embedUrl = url;
+      if (url.includes('drive.google.com')) {
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+        }
+      } else if (url.includes('youtube.com/watch')) {
+        const match = url.match(/v=([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+        }
+      } else if (url.includes('youtu.be/')) {
+        const match = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+        }
+      }
+
+      return `
+        <div class="my-6 aspect-video w-full bg-black border-2 border-navy overflow-hidden">
+          <iframe src="${embedUrl}" class="w-full h-full" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      `;
+    }
+
+    async function handleCounselorQuery(e) {
       e.preventDefault();
       const input = document.getElementById('counselor-input');
       const query = input.value.trim();
@@ -394,31 +435,59 @@ To reason like a legal scholar using the IRAC method:
 
       const messages = document.getElementById('counselor-messages');
       messages.innerHTML += `<div class="text-right"><span class="bg-navy text-cream px-3 py-1.5 rounded inline-block font-sans text-xs">${query}</span></div>`;
+      input.value = '';
 
-      let response = "I recommend using the **IRAC method**: State the **Issue**, cite the governing **Rule**, apply the facts (**Application**), and summarize your legal **Conclusion**.";
-      
-      const qLower = query.toLowerCase();
-      if (qLower.includes('irac')) {
-        response = "IRAC stands for **Issue** (What is the legal dispute?), **Rule** (Which law or precedent governs?), **Application** (How do facts fit the rule?), and **Conclusion** (What is the legal decision?).";
-      } else if (qLower.includes('stare decisis') || qLower.includes('precedent')) {
-        response = "**Stare Decisis** means lower courts must follow prior constitutional rulings of higher courts to maintain stability and predictability in law.";
+      const loadingId = 'loading-' + Date.now();
+      messages.innerHTML += `<div id="${loadingId}" class="bg-cream-soft p-3 border-l-2 border-navy text-xs italic text-navy/60">Counselor Pigeon is formulating a neutral legal analysis...</div>`;
+      messages.scrollTop = messages.scrollHeight;
+
+      let responseText = "";
+
+      try {
+        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `You are "Counselor Pigeon", an objective, neutral legal and political science scholar assistant for "The Polity Fold" publication. 
+Answer the following question about law, political science, or international affairs.
+CRITICAL INSTRUCTIONS:
+- Remain strictly non-partisan, objective, and neutral.
+- Explain key perspectives, constitutional precedents, or political theories without favoring any political party or ideology.
+- Keep the tone academic yet accessible for high school and university students.
+
+User Question: ${query}`
+              }]
+            }]
+          })
+        });
+
+        const data = await res.json();
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+          responseText = data.candidates[0].content.parts[0].text;
+        } else {
+          throw new Error('No candidate returned');
+        }
+      } catch (err) {
+        responseText = "When analyzing law and foreign affairs objectively: examine statutory text, historical context, judicial precedents, and key arguments on all sides without taking political stances.";
       }
 
-      setTimeout(() => {
-        messages.innerHTML += `
-          <div class="bg-cream-soft p-3 border-l-2 border-navy text-xs">
-            <strong>Counselor Pigeon:</strong> ${response}
-          </div>
-        `;
-        messages.scrollTop = messages.scrollHeight;
-      }, 300);
+      const loader = document.getElementById(loadingId);
+      if (loader) loader.remove();
 
-      input.value = '';
+      messages.innerHTML += `
+        <div class="bg-cream-soft p-3 border-l-2 border-navy text-xs leading-relaxed">
+          <strong>Counselor Pigeon:</strong> ${responseText.replace(/\n/g, '<br>')}
+        </div>
+      `;
+      messages.scrollTop = messages.scrollHeight;
     }
 
-    async function handleNewsletterSubscribe(e) {
+    function handleNewsletterSubscribe(e) {
       e.preventDefault();
-      const email = document.getElementById('pigeon-email-input').value.trim();
+      const input = document.getElementById('pigeon-email-input');
+      const email = input.value.trim().toLowerCase();
       if (!email) return;
 
       if (!state.subscribers.includes(email)) {
@@ -426,8 +495,18 @@ To reason like a legal scholar using the IRAC method:
         persistState();
       }
 
-      alert(`Thank you for subscribing! Direct dispatches will be sent to ${email}.`);
-      document.getElementById('pigeon-email-input').value = '';
+      alert(`Success! ${email} has been subscribed to The Polity Fold dispatches.`);
+      input.value = '';
+      render();
+    }
+
+    function triggerDispatchNotification(artTitle) {
+      if (state.subscribers.length === 0) {
+        alert("No subscribers in roster yet.");
+        return;
+      }
+      const listStr = state.subscribers.join(', ');
+      alert(`[DISPATCH SENT] Email notification broadcast for "${artTitle}" delivered to ${state.subscribers.length} subscriber(s):\n\n${listStr}`);
     }
 
     function renderHeaderUser() {
@@ -524,6 +603,7 @@ To reason like a legal scholar using the IRAC method:
               <span>•</span>
               <span>${feat.readTime}</span>
             </div>
+            ${feat.videoUrl ? formatDriveOrVideoEmbed(feat.videoUrl) : ''}
             <p class="font-serif text-base leading-relaxed text-navy/90 dropcap line-clamp-4">
               ${feat.content}
             </p>
@@ -616,6 +696,8 @@ To reason like a legal scholar using the IRAC method:
               <span>${art.date} • ${art.readTime}</span>
             </div>
           </div>
+
+          ${art.videoUrl ? formatDriveOrVideoEmbed(art.videoUrl) : ''}
 
           <div id="selectable-body" class="font-serif text-lg leading-relaxed text-navy space-y-6">
             ${art.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
@@ -759,6 +841,12 @@ To reason like a legal scholar using the IRAC method:
               </div>
 
               <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-1">Video / Google Drive Link (Optional)</label>
+                <input type="text" id="pub-video" placeholder="https://drive.google.com/file/d/... or YouTube link" class="w-full border border-navy/30 p-2 text-xs" />
+                <p class="text-[10px] text-navy/50 mt-1">Paste a Google Drive share link or YouTube URL to embed a video inside the article.</p>
+              </div>
+
+              <div>
                 <label class="block text-xs font-bold uppercase tracking-wider mb-1">Article Body Content</label>
                 <textarea id="pub-body" rows="6" required class="w-full border border-navy/30 p-2 text-xs font-serif"></textarea>
               </div>
@@ -776,18 +864,34 @@ To reason like a legal scholar using the IRAC method:
             </form>
           </div>
 
-          <div>
-            <h3 class="font-display font-bold text-md text-navy mb-3">Published Articles (${state.articles.length})</h3>
-            <div class="space-y-2">
-              ${state.articles.map(art => `
-                <div class="bg-cream-soft p-3 border border-navy/20 flex justify-between items-center text-xs">
-                  <div>
-                    <span class="font-bold text-navy">${art.title}</span>
-                    <span class="text-navy/50 font-sans"> (${art.category})</span>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="font-display font-bold text-md text-navy mb-3">Published Articles (${state.articles.length})</h3>
+              <div class="space-y-2">
+                ${state.articles.map(art => `
+                  <div class="bg-cream-soft p-3 border border-navy/20 flex justify-between items-center text-xs">
+                    <div>
+                      <span class="font-bold text-navy">${art.title}</span>
+                      <span class="text-navy/50 font-sans"> (${art.category})</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button onclick="triggerDispatchNotification('${art.title}')" class="text-amber-800 font-sans font-bold hover:underline">Dispatch</button>
+                      <button onclick="deleteArticle('${art.id}')" class="text-red-700 font-sans font-bold hover:underline">Delete</button>
+                    </div>
                   </div>
-                  <button onclick="deleteArticle('${art.id}')" class="text-red-700 font-sans font-bold hover:underline">Delete</button>
-                </div>
-              `).join('')}
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-display font-bold text-md text-navy mb-3">Subscribers Roster (${state.subscribers.length})</h3>
+              <div class="bg-white p-4 border border-navy/20 space-y-2">
+                ${state.subscribers.map(sub => `
+                  <div class="text-xs font-sans text-navy/80 border-b border-navy/10 pb-1">
+                    • ${sub}
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
         </div>
@@ -822,6 +926,7 @@ To reason like a legal scholar using the IRAC method:
       const title = document.getElementById('pub-title').value.trim();
       const category = document.getElementById('pub-cat').value;
       const subtitle = document.getElementById('pub-sub').value.trim();
+      const videoUrl = document.getElementById('pub-video').value.trim();
       const content = document.getElementById('pub-body').value.trim();
       const featured = document.getElementById('pub-featured').checked;
 
@@ -837,6 +942,7 @@ To reason like a legal scholar using the IRAC method:
         author: state.currentUser.name,
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         readTime: '4 min read',
+        videoUrl,
         featured,
         content
       };
@@ -859,3 +965,4 @@ To reason like a legal scholar using the IRAC method:
   </script>
 </body>
 </html>
+
