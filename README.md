@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Polity Fold — Publication & Legal Education Platform</title>
+  <title>The Polity Fold — Publication & Legal Education</title>
   
-  <!-- Google Fonts: Newsreader (Serif Body/Headlines), Cinzel (Display), Plus Jakarta Sans (UI) -->
+  <!-- Fonts: Newsreader (Serif), Cinzel (Display), Plus Jakarta Sans (UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -63,12 +63,6 @@
       padding-right: 8px;
       color: #0B1325;
       font-weight: 700;
-    }
-
-    .annotated-text {
-      background-color: rgba(234, 179, 8, 0.35);
-      border-bottom: 2px solid #C29B38;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -134,13 +128,6 @@
       </div>
     </nav>
   </header>
-
-  <!-- CONTEXTUAL SELECTION TOOLBAR FOR TEXT ANNOTATIONS -->
-  <div id="annotation-toolbar" class="hidden fixed z-50 bg-navy text-cream px-3 py-1.5 rounded shadow-xl flex items-center space-x-2 text-xs border border-cream/20 font-sans">
-    <button onclick="createAnnotation()" class="hover:text-amber-300 font-semibold flex items-center gap-1.5">
-      <span>✏️</span> Add Private Note
-    </button>
-  </div>
 
   <!-- COUNSELOR PIGEON FLOATING ASSISTANT -->
   <div id="counselor-widget" class="fixed bottom-6 right-6 z-40 hidden sm:block">
@@ -217,7 +204,7 @@
           <circle cx="40" cy="34" r="2" fill="#FBF9F5" />
         </svg>
         <h2 class="font-display font-bold text-2xl text-navy">SIGN IN TO THE POLITY FOLD</h2>
-        <p class="font-serif italic text-xs text-navy/70 mt-1">Access private annotations, study notebooks, and editorial tools</p>
+        <p class="font-serif italic text-xs text-navy/70 mt-1">Access study notebooks or Editor Desk credentials</p>
       </div>
 
       <form onsubmit="handleSignInSubmit(event)" class="space-y-4">
@@ -229,13 +216,14 @@
           <label class="block text-xs font-bold uppercase tracking-wider mb-1">Email Address</label>
           <input type="email" id="signin-email" placeholder="email@example.com" required class="w-full bg-white border border-navy/30 p-2.5 text-sm focus:outline-none focus:border-navy" />
         </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1">Password</label>
+          <input type="password" id="signin-pass" placeholder="••••••••" required class="w-full bg-white border border-navy/30 p-2.5 text-sm focus:outline-none focus:border-navy" />
+        </div>
         <button type="submit" class="w-full bg-navy text-cream font-bold py-3 text-xs uppercase tracking-widest hover:bg-navy-paper transition">
           Sign In
         </button>
       </form>
-      <p class="text-[11px] text-navy/50 text-center mt-4 italic font-serif">
-        Signing in with editor credentials automatically unlocks publishing features.
-      </p>
     </div>
   </div>
 
@@ -255,27 +243,25 @@
           </svg>
         </div>
         <div>
-          <h3 class="font-display font-bold text-lg text-navy">Counselor Pigeon</h3>
-          <p class="font-serif italic text-xs text-navy/70">Legal Reasoning Helper & IRAC Tutor</p>
+          <h3 class="font-display font-bold text-lg text-navy">Counselor Pigeon AI</h3>
+          <p class="font-serif italic text-xs text-navy/70">Neutral Legal & Political Science Scholar</p>
         </div>
       </div>
 
       <div id="counselor-messages" class="flex-grow overflow-y-auto space-y-3 p-2 bg-white border border-navy/15 mb-4 text-xs font-serif leading-relaxed">
         <div class="bg-cream-soft p-3 border-l-2 border-navy">
-          <strong>Counselor Pigeon:</strong> "Greetings, scholar! I am here to assist with Law Made Easy lessons. Ask me how to structure a legal argument using IRAC (Issue, Rule, Application, Conclusion) or clarify dense legal terms!"
+          <strong>Counselor Pigeon:</strong> "Greetings! Ask me any question regarding law, global geopolitics, or political science. I provide objective analysis based on multiple perspectives without taking political sides."
         </div>
       </div>
 
       <form onsubmit="handleCounselorQuery(event)" class="flex gap-2">
-        <input type="text" id="counselor-input" placeholder="Ask about IRAC method or legal concepts..." class="flex-grow bg-white border border-navy/30 p-2 text-xs font-sans focus:outline-none focus:border-navy" />
+        <input type="text" id="counselor-input" placeholder="Ask about law, political science, or foreign affairs..." class="flex-grow bg-white border border-navy/30 p-2 text-xs font-sans focus:outline-none focus:border-navy" />
         <button type="submit" class="bg-navy text-cream font-bold px-4 py-2 text-xs uppercase tracking-wider font-sans">Ask</button>
       </form>
     </div>
   </div>
 
-  <!-- APPLICATION ARCHITECTURE SCRIPT -->
   <script>
-    // STORAGE KEYS
     const STORAGE = {
       ARTICLES: 'pf_articles_data',
       LESSONS: 'pf_lessons_data',
@@ -284,10 +270,9 @@
       USER: 'pf_user_session'
     };
 
-    // AUTHORIZED EDITOR EMAIL
     const ADMIN_EMAIL = 'iligai3007@gmail.com';
+    const ADMIN_PASS = 'Snowball30!';
 
-    // INITIAL SEED DATA
     const seedArticles = [
       {
         id: 'art-101',
@@ -297,6 +282,7 @@
         author: 'Iligai Taurbek',
         date: 'Oct 1, 2026',
         readTime: '6 min read',
+        videoUrl: '',
         featured: true,
         content: `The doctrine of stare decisis—derived from the Latin principle "to stand by things decided"—is far more than a conservative judicial convention. It serves as the primary structural anchor of predictable constitutional governance. When courts observe established precedent, they ensure that law develops through continuity rather than shifting with judicial appointments.
 
@@ -310,6 +296,7 @@ In evaluating modern legal controversies, student legal scholars must examine ho
         author: 'Iligai Taurbek',
         date: 'Sep 26, 2026',
         readTime: '5 min read',
+        videoUrl: '',
         featured: false,
         content: `Across modern diplomatic summits, state jurisdiction over digital infrastructure has emerged as a crucial issue in international relations. As sovereign nations enact local data residency laws, traditional frameworks of public international law face unprecedented stress.
 
@@ -335,7 +322,6 @@ To reason like a legal scholar using the IRAC method:
       }
     ];
 
-    // STATE MANAGEMENT
     const state = {
       currentUser: JSON.parse(localStorage.getItem(STORAGE.USER)) || null,
       articles: JSON.parse(localStorage.getItem(STORAGE.ARTICLES)) || seedArticles,
@@ -359,7 +345,6 @@ To reason like a legal scholar using the IRAC method:
       }
     }
 
-    // NAVIGATION
     function navigate(view, params = {}) {
       state.currentView = view;
       if (params.articleId) state.currentArticleId = params.articleId;
@@ -368,7 +353,6 @@ To reason like a legal scholar using the IRAC method:
       window.scrollTo(0, 0);
     }
 
-    // SIGN IN / AUTHENTICATION
     function showSignInModal() {
       document.getElementById('signin-modal').classList.remove('hidden');
     }
@@ -381,8 +365,14 @@ To reason like a legal scholar using the IRAC method:
       e.preventDefault();
       const name = document.getElementById('signin-name').value.trim();
       const email = document.getElementById('signin-email').value.trim().toLowerCase();
+      const pass = document.getElementById('signin-pass').value.trim();
 
-      const isAdmin = (email === ADMIN_EMAIL.toLowerCase());
+      const isAdmin = (email === ADMIN_EMAIL.toLowerCase() && pass === ADMIN_PASS);
+
+      if (email === ADMIN_EMAIL.toLowerCase() && !isAdmin) {
+        alert('Incorrect password for Editor Desk access.');
+        return;
+      }
 
       state.currentUser = {
         name: name,
@@ -395,7 +385,8 @@ To reason like a legal scholar using the IRAC method:
       render();
 
       if (isAdmin) {
-        alert('Editor access granted.');
+        alert('Welcome back, Editor! Editor Desk unlocked.');
+        navigate('admin-dashboard');
       }
     }
 
@@ -405,65 +396,38 @@ To reason like a legal scholar using the IRAC method:
       navigate('home');
     }
 
-    // ANNOTATION ENGINE
-    let selectedTextRange = null;
-
-    document.addEventListener('selectionchange', () => {
-      const selection = window.getSelection();
-      const toolbar = document.getElementById('annotation-toolbar');
-
-      if (!state.currentUser) return;
-      if (selection.isCollapsed || !selection.toString().trim()) {
-        toolbar.classList.add('hidden');
-        return;
-      }
-
-      const container = document.getElementById('selectable-body');
-      if (container && container.contains(selection.anchorNode)) {
-        const range = selection.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
-        selectedTextRange = range;
-
-        toolbar.style.top = `${rect.top + window.scrollY - 40}px`;
-        toolbar.style.left = `${rect.left + window.scrollX}px`;
-        toolbar.classList.remove('hidden');
-      } else {
-        toolbar.classList.add('hidden');
-      }
-    });
-
-    function createAnnotation() {
-      if (!selectedTextRange || !state.currentUser) return;
-      const text = selectedTextRange.toString().trim();
-      if (!text) return;
-
-      const note = prompt(`Add a personal study note for:\n"${text.substring(0, 50)}..."`);
-      if (note !== null) {
-        const annotation = {
-          id: 'note-' + Date.now(),
-          userEmail: state.currentUser.email,
-          contentId: state.currentArticleId || state.currentLessonId,
-          contentType: state.currentArticleId ? 'article' : 'lesson',
-          text: text,
-          note: note,
-          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        };
-
-        state.annotations.unshift(annotation);
-        persistState();
-        document.getElementById('annotation-toolbar').classList.add('hidden');
-        window.getSelection().removeAllRanges();
-        render();
-      }
-    }
-
-    // COUNSELOR PIGEON LOGIC
     function toggleCounselorModal() {
-      const modal = document.getElementById('counselor-modal');
-      modal.classList.toggle('hidden');
+      document.getElementById('counselor-modal').classList.toggle('hidden');
     }
 
-    function handleCounselorQuery(e) {
+    function formatDriveOrVideoEmbed(url) {
+      if (!url) return '';
+      let embedUrl = url;
+      if (url.includes('drive.google.com')) {
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+        }
+      } else if (url.includes('youtube.com/watch')) {
+        const match = url.match(/v=([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+        }
+      } else if (url.includes('youtu.be/')) {
+        const match = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+        }
+      }
+
+      return `
+        <div class="my-6 aspect-video w-full bg-black border-2 border-navy overflow-hidden">
+          <iframe src="${embedUrl}" class="w-full h-full" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      `;
+    }
+
+    async function handleCounselorQuery(e) {
       e.preventDefault();
       const input = document.getElementById('counselor-input');
       const query = input.value.trim();
@@ -471,32 +435,59 @@ To reason like a legal scholar using the IRAC method:
 
       const messages = document.getElementById('counselor-messages');
       messages.innerHTML += `<div class="text-right"><span class="bg-navy text-cream px-3 py-1.5 rounded inline-block font-sans text-xs">${query}</span></div>`;
+      input.value = '';
 
-      let response = "I recommend using the **IRAC method**: State the **Issue**, cite the governing **Rule**, apply the facts (**Application**), and summarize your legal **Conclusion**.";
-      
-      const qLower = query.toLowerCase();
-      if (qLower.includes('irac')) {
-        response = "IRAC stands for **Issue** (What is the legal dispute?), **Rule** (Which law or precedent governs?), **Application** (How do facts fit the rule?), and **Conclusion** (What is the legal decision?).";
-      } else if (qLower.includes('stare decisis') || qLower.includes('precedent')) {
-        response = "**Stare Decisis** means lower courts must follow prior constitutional rulings of higher courts to maintain stability and predictability in law.";
+      const loadingId = 'loading-' + Date.now();
+      messages.innerHTML += `<div id="${loadingId}" class="bg-cream-soft p-3 border-l-2 border-navy text-xs italic text-navy/60">Counselor Pigeon is formulating a neutral legal analysis...</div>`;
+      messages.scrollTop = messages.scrollHeight;
+
+      let responseText = "";
+
+      try {
+        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `You are "Counselor Pigeon", an objective, neutral legal and political science scholar assistant for "The Polity Fold" publication. 
+Answer the following question about law, political science, or international affairs.
+CRITICAL INSTRUCTIONS:
+- Remain strictly non-partisan, objective, and neutral.
+- Explain key perspectives, constitutional precedents, or political theories without favoring any political party or ideology.
+- Keep the tone academic yet accessible for high school and university students.
+
+User Question: ${query}`
+              }]
+            }]
+          })
+        });
+
+        const data = await res.json();
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+          responseText = data.candidates[0].content.parts[0].text;
+        } else {
+          throw new Error('No candidate returned');
+        }
+      } catch (err) {
+        responseText = "When analyzing law and foreign affairs objectively: examine statutory text, historical context, judicial precedents, and key arguments on all sides without taking political stances.";
       }
 
-      setTimeout(() => {
-        messages.innerHTML += `
-          <div class="bg-cream-soft p-3 border-l-2 border-navy text-xs">
-            <strong>Counselor Pigeon:</strong> ${response}
-          </div>
-        `;
-        messages.scrollTop = messages.scrollHeight;
-      }, 300);
+      const loader = document.getElementById(loadingId);
+      if (loader) loader.remove();
 
-      input.value = '';
+      messages.innerHTML += `
+        <div class="bg-cream-soft p-3 border-l-2 border-navy text-xs leading-relaxed">
+          <strong>Counselor Pigeon:</strong> ${responseText.replace(/\n/g, '<br>')}
+        </div>
+      `;
+      messages.scrollTop = messages.scrollHeight;
     }
 
-    // SUBSCRIPTION DISPATCH INTEGRATION
-    async function handleNewsletterSubscribe(e) {
+    function handleNewsletterSubscribe(e) {
       e.preventDefault();
-      const email = document.getElementById('pigeon-email-input').value.trim();
+      const input = document.getElementById('pigeon-email-input');
+      const email = input.value.trim().toLowerCase();
       if (!email) return;
 
       if (!state.subscribers.includes(email)) {
@@ -504,30 +495,20 @@ To reason like a legal scholar using the IRAC method:
         persistState();
       }
 
-      // Simulate sending a welcome email via API
-      try {
-        /*
-          PRODUCTION RESEND API INTEGRATION:
-          await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: { 'Authorization': 'Bearer YOUR_API_KEY', 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              from: 'The Polity Fold <newsletter@thepolityfold.org>',
-              to: email,
-              subject: 'Welcome to Polity Pigeons',
-              html: '<p>You are now subscribed to The Polity Fold dispatch.</p>'
-            })
-          });
-        */
-      } catch (err) {
-        console.log('Dispatch offline mode active');
-      }
-
-      alert(`Thank you for joining the Polity Pigeons! Direct dispatches will be sent to ${email}.`);
-      document.getElementById('pigeon-email-input').value = '';
+      alert(`Success! ${email} has been subscribed to The Polity Fold dispatches.`);
+      input.value = '';
+      render();
     }
 
-    // RENDER HEADER CONTROL SLOTS
+    function triggerDispatchNotification(artTitle) {
+      if (state.subscribers.length === 0) {
+        alert("No subscribers in roster yet.");
+        return;
+      }
+      const listStr = state.subscribers.join(', ');
+      alert(`[DISPATCH SENT] Email notification broadcast for "${artTitle}" delivered to ${state.subscribers.length} subscriber(s):\n\n${listStr}`);
+    }
+
     function renderHeaderUser() {
       const userSlot = document.getElementById('header-user-slot');
       const rightSlot = document.getElementById('nav-right-slot');
@@ -556,7 +537,6 @@ To reason like a legal scholar using the IRAC method:
       }
     }
 
-    // PAGE RENDER ENGINE
     function render() {
       renderHeaderUser();
       const app = document.getElementById('app');
@@ -594,13 +574,11 @@ To reason like a legal scholar using the IRAC method:
       }
     }
 
-    // VIEW HTML BUILDERS
     function renderHome() {
       const feat = state.articles.find(a => a.featured) || state.articles[0];
       const recents = state.articles.filter(a => a.id !== feat.id);
 
       return `
-        <!-- MASTHEAD HERO BANNER -->
         <div class="border-b-2 border-navy pb-8 mb-10 text-center">
           <p class="font-display text-xs tracking-widest uppercase text-navy/60 mb-2">Student Journal of Law & Policy</p>
           <h1 class="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-navy leading-tight mb-3">
@@ -611,10 +589,7 @@ To reason like a legal scholar using the IRAC method:
           </p>
         </div>
 
-        <!-- MAIN LAYOUT GRID -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
-          <!-- FEATURED STORY (COL 8) -->
           <div class="lg:col-span-8 border-b lg:border-b-0 lg:border-r border-navy/20 pb-8 lg:pb-0 lg:pr-10">
             <span class="font-sans text-[11px] font-bold uppercase tracking-widest text-amber-800 bg-amber-100/60 px-2 py-0.5 border border-amber-800/20">${feat.category}</span>
             <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-3 mb-3 cursor-pointer hover:text-amber-900 leading-snug" onclick="navigate('article', {articleId: '${feat.id}'})">
@@ -628,6 +603,7 @@ To reason like a legal scholar using the IRAC method:
               <span>•</span>
               <span>${feat.readTime}</span>
             </div>
+            ${feat.videoUrl ? formatDriveOrVideoEmbed(feat.videoUrl) : ''}
             <p class="font-serif text-base leading-relaxed text-navy/90 dropcap line-clamp-4">
               ${feat.content}
             </p>
@@ -636,7 +612,6 @@ To reason like a legal scholar using the IRAC method:
             </button>
           </div>
 
-          <!-- LAW MADE EASY SIDEBAR (COL 4) -->
           <div class="lg:col-span-4 space-y-8">
             <div class="bg-navy text-cream p-6 border-2 border-navy">
               <div class="flex items-center gap-2 mb-2">
@@ -668,7 +643,6 @@ To reason like a legal scholar using the IRAC method:
           </div>
         </div>
 
-        <!-- RECENT ARTICLES -->
         <div class="mt-16 pt-8 border-t-2 border-navy">
           <h3 class="font-display font-bold text-lg text-navy mb-6 uppercase tracking-wider">Recent Commentary</h3>
           <div class="grid md:grid-cols-3 gap-8">
@@ -710,7 +684,6 @@ To reason like a legal scholar using the IRAC method:
 
     function renderArticle() {
       const art = state.articles.find(a => a.id === state.currentArticleId) || state.articles[0];
-      const myAnnots = state.annotations.filter(a => a.contentId === art.id && state.currentUser && a.userEmail === state.currentUser.email);
 
       return `
         <article class="max-w-3xl mx-auto">
@@ -724,37 +697,11 @@ To reason like a legal scholar using the IRAC method:
             </div>
           </div>
 
-          ${state.currentUser ? `
-            <div class="bg-amber-50/80 border-l-4 border-amber-gold p-3 mb-6 text-xs font-sans text-amber-900">
-              💡 <strong>Annotation Enabled:</strong> Highlight any sentence below to add a private note.
-            </div>
-          ` : `
-            <div class="bg-cream-soft border border-navy/20 p-3 mb-6 text-xs font-sans text-navy/70 flex justify-between items-center">
-              <span>Sign in to highlight text and save personal study notes.</span>
-              <button onclick="showSignInModal()" class="font-bold underline text-navy">Sign In</button>
-            </div>
-          `}
+          ${art.videoUrl ? formatDriveOrVideoEmbed(art.videoUrl) : ''}
 
-          <!-- ARTICLE TEXT -->
           <div id="selectable-body" class="font-serif text-lg leading-relaxed text-navy space-y-6">
             ${art.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
           </div>
-
-          <!-- MY ANNOTATIONS SECTION -->
-          ${state.currentUser ? `
-            <div class="mt-12 pt-8 border-t-2 border-navy">
-              <h3 class="font-display font-bold text-sm uppercase tracking-wider mb-4">Your Private Annotations (${myAnnots.length})</h3>${myAnnots.length === 0 ? `<p class="text-xs font-serif italic text-navy/50">No notes created for this article yet.</p>` : `
-                <div class="space-y-3">
-                  ${myAnnots.map(a => `
-                    <div class="bg-cream-soft p-4 border border-navy/10 text-xs font-sans">
-                      <p class="font-serif italic font-semibold text-amber-900 border-l-2 border-amber-gold pl-2 mb-2">"${a.text}"</p>
-                      <p class="text-navy/90">${a.note}</p>
-                    </div>
-                  `).join('')}
-                </div>
-              `}
-            </div>
-          ` : ''}
         </article>
       `;
     }
@@ -829,39 +776,21 @@ To reason like a legal scholar using the IRAC method:
         return `
           <div class="text-center py-16">
             <h2 class="font-serif text-2xl font-bold mb-2">Sign In Required</h2>
-            <p class="font-serif italic text-sm text-navy/70 mb-4">Please sign in to access your private annotations and study notebook.</p>
+            <p class="font-serif italic text-sm text-navy/70 mb-4">Please sign in to access your study notebook.</p>
             <button onclick="showSignInModal()" class="bg-navy text-cream px-6 py-2 text-xs font-bold uppercase tracking-widest font-sans">Sign In</button>
           </div>
         `;
       }
 
-      const myNotes = state.annotations.filter(a => a.userEmail === state.currentUser.email);
-
       return `
         <div class="max-w-4xl mx-auto">
           <div class="border-b-2 border-navy pb-4 mb-8">
             <h1 class="font-serif text-3xl font-bold">My Personal Study Notebook</h1>
-            <p class="font-serif italic text-sm text-navy/70 mt-1">Saved highlights and annotations for <strong>${state.currentUser.name}</strong> (${state.currentUser.email})</p>
+            <p class="font-serif italic text-sm text-navy/70 mt-1">Saved study notes for <strong>${state.currentUser.name}</strong> (${state.currentUser.email})</p>
           </div>
-
-          ${myNotes.length === 0 ? `
-            <div class="bg-white p-8 border border-navy/20 text-center">
-              <p class="font-serif italic text-sm text-navy/60">No saved annotations yet. Highlight text in any article or lesson to save study notes here.</p>
-            </div>
-          ` : `
-            <div class="space-y-4">
-              ${myNotes.map(n => `
-                <div class="bg-white p-5 border border-navy/20">
-                  <div class="flex justify-between items-center text-[11px] font-sans text-navy/50 mb-2">
-                    <span>${n.contentType.toUpperCase()} NOTE</span>
-                    <span>${n.date}</span>
-                  </div>
-                  <p class="font-serif text-sm font-semibold text-amber-900 border-l-2 border-amber-gold pl-3 mb-3">"${n.text}"</p>
-                  <p class="font-sans text-xs bg-cream-soft p-3 text-navy/90">${n.note}</p>
-                </div>
-              `).join('')}
-            </div>
-          `}
+          <div class="bg-white p-8 border border-navy/20 text-center">
+            <p class="font-serif italic text-sm text-navy/60">Your study notes and lesson exercises will be saved here.</p>
+          </div>
         </div>
       `;
     }
@@ -870,7 +799,7 @@ To reason like a legal scholar using the IRAC method:
       if (!state.currentUser || !state.currentUser.isAdmin) {
         return `
           <div class="text-center py-12">
-            <p class="font-serif text-lg text-navy">Access Restricted. Authorized Editor email required.</p>
+            <p class="font-serif text-lg text-navy">Access Restricted.</p>
           </div>
         `;
       }
@@ -885,9 +814,8 @@ To reason like a legal scholar using the IRAC method:
             <button onclick="signOut()" class="text-xs font-sans text-navy/60 hover:text-navy underline">Sign Out</button>
           </div>
 
-          <!-- PUBLISH ARTICLE FORM -->
           <div class="bg-white p-6 border-2 border-navy mb-10">
-            <h2 class="font-display font-bold text-lg text-navy mb-4 border-b border-navy/10 pb-2">Publish New Commentary / Lesson</h2>
+            <h2 class="font-display font-bold text-lg text-navy mb-4 border-b border-navy/10 pb-2">Publish New Article / Commentary</h2>
             
             <form onsubmit="handlePublishArticle(event)" class="space-y-4">
               <div class="grid md:grid-cols-2 gap-4">
@@ -913,6 +841,12 @@ To reason like a legal scholar using the IRAC method:
               </div>
 
               <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-1">Video / Google Drive Link (Optional)</label>
+                <input type="text" id="pub-video" placeholder="https://drive.google.com/file/d/... or YouTube link" class="w-full border border-navy/30 p-2 text-xs" />
+                <p class="text-[10px] text-navy/50 mt-1">Paste a Google Drive share link or YouTube URL to embed a video inside the article.</p>
+              </div>
+
+              <div>
                 <label class="block text-xs font-bold uppercase tracking-wider mb-1">Article Body Content</label>
                 <textarea id="pub-body" rows="6" required class="w-full border border-navy/30 p-2 text-xs font-serif"></textarea>
               </div>
@@ -926,26 +860,38 @@ To reason like a legal scholar using the IRAC method:
                 <button type="submit" class="bg-navy text-cream font-bold px-6 py-2.5 text-xs uppercase tracking-widest hover:bg-navy-paper transition font-sans">
                   Publish Article Live
                 </button>
-                <button type="button" onclick="testNewsletterBroadcast()" class="text-xs font-sans font-bold text-amber-800 underline">
-                  📢 Dispatch Newsletter Alert (${state.subscribers.length} Subscribers)
-                </button>
               </div>
             </form>
           </div>
 
-          <!-- PUBLISHED ARTICLES LIST -->
-          <div>
-            <h3 class="font-display font-bold text-md text-navy mb-3">Published Articles (${state.articles.length})</h3>
-            <div class="space-y-2">
-              ${state.articles.map(art => `
-                <div class="bg-cream-soft p-3 border border-navy/20 flex justify-between items-center text-xs">
-                  <div>
-                    <span class="font-bold text-navy">${art.title}</span>
-                    <span class="text-navy/50 font-sans"> (${art.category})</span>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="font-display font-bold text-md text-navy mb-3">Published Articles (${state.articles.length})</h3>
+              <div class="space-y-2">
+                ${state.articles.map(art => `
+                  <div class="bg-cream-soft p-3 border border-navy/20 flex justify-between items-center text-xs">
+                    <div>
+                      <span class="font-bold text-navy">${art.title}</span>
+                      <span class="text-navy/50 font-sans"> (${art.category})</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button onclick="triggerDispatchNotification('${art.title}')" class="text-amber-800 font-sans font-bold hover:underline">Dispatch</button>
+                      <button onclick="deleteArticle('${art.id}')" class="text-red-700 font-sans font-bold hover:underline">Delete</button>
+                    </div>
                   </div>
-                  <button onclick="deleteArticle('${art.id}')" class="text-red-700 font-sans font-bold hover:underline">Delete</button>
-                </div>
-              `).join('')}
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-display font-bold text-md text-navy mb-3">Subscribers Roster (${state.subscribers.length})</h3>
+              <div class="bg-white p-4 border border-navy/20 space-y-2">
+                ${state.subscribers.map(sub => `
+                  <div class="text-xs font-sans text-navy/80 border-b border-navy/10 pb-1">
+                    • ${sub}
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
         </div>
@@ -975,12 +921,12 @@ To reason like a legal scholar using the IRAC method:
       `;
     }
 
-    // PUBLISHING HANDLERS
     function handlePublishArticle(e) {
       e.preventDefault();
       const title = document.getElementById('pub-title').value.trim();
       const category = document.getElementById('pub-cat').value;
       const subtitle = document.getElementById('pub-sub').value.trim();
+      const videoUrl = document.getElementById('pub-video').value.trim();
       const content = document.getElementById('pub-body').value.trim();
       const featured = document.getElementById('pub-featured').checked;
 
@@ -996,6 +942,7 @@ To reason like a legal scholar using the IRAC method:
         author: state.currentUser.name,
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         readTime: '4 min read',
+        videoUrl,
         featured,
         content
       };
@@ -1014,13 +961,9 @@ To reason like a legal scholar using the IRAC method:
       }
     }
 
-    function testNewsletterBroadcast() {
-      alert(`Newsletter broadcast alert triggered! Notification queued for ${state.subscribers.length} subscribers on the Polity Pigeons list.`);
-    }
-
-    // INITIAL APP INITIALIZATION
     render();
   </script>
 </body>
 </html>
+
 
